@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const btnElement = document.querySelector(".btn_search");
     const inputElement = document.querySelector(".input_field");
     const iconsContainer = document.querySelector(".icons");
+    const dayInfoElement = document.querySelector(".day_info");
 
     const days = [
         "Sunday",
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     async function findLocation(name) {
         iconsContainer.innerHTML = "";    
+        dayInfoElement.innerHTML = "";
         try{
             const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${API}`;
             const data = await fetch(API_URL);
@@ -58,7 +60,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if(result.cod !=="404") {
                 //display image content
                 const imageContent = displayImageContent(result);
+
+                //display right side content
+                const rightSide = rightSideContent(result);
+
                 iconsContainer.insertAdjacentHTML("afterbegin", imageContent);
+                dayInfoElement.insertAdjacentHTML("afterbegin", rightSideContent);
             } else {
                 const message = `<h2 class="weather_temp text-8xl font-extrabold leading-none">${result.cod}</h2>
                 <h3 class="cloudtxt text-2xl capitalize leading-relaxed">${result.message}</h3> `; 
@@ -78,51 +85,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function rightSideContent(result){
         return `<div class="content flex justify-between p-1">
                     <p class="title font-semibold">NAME</p>
-                    <span class="value">United Kingdom</span>
+                    <span class="value">${result.name}</span>
                 </div>
 
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">TEMP</p>
-                    <span class="value">23°C</span>
+                    <span class="value">${Math.round(result.main.temp - 275.15)}°C</span>
                 </div>
     
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">HUMIDITY</p>
-                    <span class="value">2%</span>
+                    <span class="value">${result.wind.humidity}%</span>
                 </div>
 
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">WIND SPEED</p>
-                    <span class="value">2.9 Km/h</span>
-                </div>
-`
+                    <span class="value">${result.wind.speed}km/h</span>
+                </div>`
     }
-
-
-
-
-    /*function findLocation(name) {
-        try {
-            const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${API}`;
-    
-            // Fetch weather data
-            fetch(API_URL)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok (status ${response.status})`);
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log("Weather data:", data);
-                })
-                .catch((error) => {
-                    console.error("Error fetching weather data:", error);
-                });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-    } */
     
     
 }); 
