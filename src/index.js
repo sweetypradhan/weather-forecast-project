@@ -64,8 +64,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //display right side content
                 const rightSide = rightSideContent(result);
 
+                //forecast function
+                displayForeCast(result.coord.lat, result.coord.lon);
+
                 iconsContainer.insertAdjacentHTML("afterbegin", imageContent);
-                dayInfoElement.insertAdjacentHTML("afterbegin", rightSideContent);
+                dayInfoElement.insertAdjacentHTML("afterbegin", rightSide);
             } else {
                 const message = `<h2 class="weather_temp text-8xl font-extrabold leading-none">${result.cod}</h2>
                 <h3 class="cloudtxt text-2xl capitalize leading-relaxed">${result.message}</h3> `; 
@@ -87,21 +90,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     <p class="title font-semibold">NAME</p>
                     <span class="value">${result.name}</span>
                 </div>
-
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">TEMP</p>
                     <span class="value">${Math.round(result.main.temp - 275.15)}°C</span>
                 </div>
-    
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">HUMIDITY</p>
-                    <span class="value">${result.wind.humidity}%</span>
+                    <span class="value">${result.main.humidity}%</span>
                 </div>
-
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">WIND SPEED</p>
-                    <span class="value">${result.wind.speed}km/h</span>
-                </div>`
+                    <span class="value">${result.wind.speed} km/h</span>
+                </div>`;
+    }
+
+    async function displayForeCast(lat, long) {
+        const ForeCast_API = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API}`;
+        const data = await fetch(ForeCast_API);
+        console.log(data);
     }
     
     
