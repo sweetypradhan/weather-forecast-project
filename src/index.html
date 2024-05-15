@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link href="./output.css" rel="stylesheet">
+</head>
+<!--<body class="bg-gray-700 h-screen flex items-center justify-center font-poppins">
+    <div class="container mx-auto w-2/4 bg-cyan-900 text-white rounded-lg shadow-xl">
+        <div class="wrapper grid grid-cols-7 gap-4">
+            <div class="img_section w-80 bg-[url('../images/img2.jpg')] bg-cover bg-center relative transform scale-103 perspective-200 rounded-lg">
+                <div class="default_info p-6 text-center">
+                    <h2 class="default_day text-5xl font-medium">Sunday</h2>
+                    <span class="default_date">13 may 2024</span>
+                    <div class="icons">
+                        <img src="#" alt=""/>
+                        <h2 class="weather_temp text-8xl font-semibold">22c</h2>
+                        <h3 class="cloudtxt text-2xl capitalize font-medium">Overcast clouds</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content_section p-6">
+                <form class="my-6 relative pl-56">
+                    <input class="w-84 outline-none bg-transparent border border-gray-700 rounded-md px-4 py-2 font-family[inherit] text-white text-base type = "text" placeholder="Search Location">
+                    <button type="submit" class="btn_search">Search</button>
+                </form>
+
+                <div class="day_info">
+                    <div class="content">
+                        <p class="title">NAME</p>
+                        <span class="value">United Kingdom</span>
+                    </div>
+
+                    <div class="content">
+                        <p class="title">TEMP</p>
+                        <span class="value">23C</span>
+                    </div>
+                    
+                    <div class="content">
+                        <p class="title">HUMIDITY</p>
+                        <span class="value">2%</span>
+                    </div>
+
+                    <div class="content">
+                        <p class="title">WIND SPEED</p>
+                        <span class="value">2.9 Km/h</span>
+                    </div>
+
+                </div>
+        </div>
+    </div>  
+</body>-->
+
+
+<body class="bg-gray-800 h-screen flex items-center justify-center font-poppins">
+    <div class="container mx-auto w-full md:max-w-screen-md bg-gray-900 text-white rounded-lg shadow-2xl ">
+        <div class="wrapper grid grid-cols-7 gap-4">
+            <div class="img_section bg-[url('../images/img2.jpg')] col-span-3 bg-cover bg-center relative transform scale-103 perspective-200 rounded-lg">
+                <!--<div class="default_info p-6 text-center">
+                    <h2 class="text-5xl font-medium">Sunday</h2>
+                    <span class="text-xl">13 may 2024</span>
+                    <div class="icons flex flex-col items-center justify-center">
+                        <img class="w-4/5 object-cover mx-auto" src="#" alt=""/>
+                        <h2 class="text-8xl font-extrabold">22c</h2>
+                        <h3 class="text-2xl capitalize">Overcast clouds</h3>
+                    </div>
+                </div>-->
+
+                <div class="default_info p-6 text-center">
+                    <h2 class="default_day text-5xl font-medium leading-tight">Sunday</h2>
+                    <span class="default_date text-xl leading-snug">13 May 2024</span>
+                    <div class="icons flex flex-col items-center justify-center space-y-2">
+                        <img class="w-4/5 object-cover mx-auto" src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon"/>
+                        <h2 class="weather_temp text-8xl font-extrabold leading-none">22°C</h2>
+                        <h3 class="cloudtxt text-2xl capitalize leading-relaxed">Overcast clouds</h3>
+                    </div>
+                </div>
+                
+
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-900 opacity-20 rounded-lg"></div>       
+            </div>
+            <div class="content_section col-span-4 p-6">
+                <form class="relative my-6">
+                    <input class="input_field w-5/6 bg-transparent border border-gray-700 rounded-md p-2 text-white text-base outline-none mx-auto" type="text" placeholder="Search Location">
+                    <button class="btn_search absolute top-0 right-0 h-10 bg-blue-900 text-white cursor-pointer rounded-r-md p-2.5 text-sm" type="submit">Search</button>
+                </form>
+
+                <div class="day_info">
+                    <div class="content flex justify-between p-1">
+                        <p class="title font-semibold">NAME</p>
+                        <span class="value">United Kingdom</span>
+                    </div>
+
+                    <div class="content flex justify-between p-1">
+                        <p class="title font-semibold">TEMP</p>
+                        <span class="value">23°C</span>
+                    </div>
+                    
+                    <div class="content flex justify-between p-1">
+                        <p class="title font-semibold">HUMIDITY</p>
+                        <span class="value">2%</span>
+                    </div>
+
+                    <div class="content flex justify-between p-1">
+                        <p class="title font-semibold">WIND SPEED</p>
+                        <span class="value">2.9 Km/h</span>
+                    </div>
+
+                </div>
+
+                <div class="list_content">
+                    <ul class="flex justify-between items-center list-none m-12 shadow-2xl gap-4">
+                        <li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png">
+                            <span>Sat</span>
+                            <div class="day_temp">23°c</div>
+                        </li>
+
+                        <li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png">
+                            <span>Sat</span>
+                            <div class="day_temp">23°c</div>
+                        </li>
+
+                       <li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png">
+                            <span>Sat</span>
+                            <div class="day_temp">23°c</div>
+                        </li>
+
+                        <li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png">
+                            <span>Sat</span>
+                            <div class="day_temp">23°c</div>
+                        </li>
+
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
