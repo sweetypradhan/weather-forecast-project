@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const inputElement = document.querySelector(".input_field");
     const iconsContainer = document.querySelector(".icons");
     const dayInfoElement = document.querySelector(".day_info");
+    const listContentElement = document.querySelector(".list_content ul");
 
     const days = [
         "Sunday",
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     async function findLocation(name) {
         iconsContainer.innerHTML = "";    
         dayInfoElement.innerHTML = "";
+        listContentElement.innerHTML= "";
         try{
             const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${API}`;
             const data = await fetch(API_URL);
@@ -104,10 +106,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 </div>`;
     }
 
-    async function displayForeCast(lat, long) {
-        const ForeCast_API = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API}`;
+    async function displayForeCast(lat, lon) {
+        const ForeCast_API = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API}`;
         const data = await fetch(ForeCast_API);
-        console.log(data);
+        const result = await data.json();
+        
+        //filter the forecast
+        const uniqueForeCastDays = [];
+        const dayForecast = result.list.filter((forecast) => {
+            const forecastDate = new Date(forecast.dt_txt).getDate();
+            if(!uniqueForeCastDays.includes(forecastDate)){
+                return uniqueForeCastDays.push(forecastDate);
+            }
+        });
+        console.log(dayForecast);
+        
+        dayForecast.forEach((content, indx) => {
+            if (indx <= 4) {
+                listContentElement.insertAdjacentHTML("afterbegin",forecast(content));
+            }
+            
+        });
+    }
+
+    //forecast html element data
+    function forecast(frContent) {
+
+        const day = new Date(frContent.dt_txt);
+        const dayName = days[day.getDay()];
+        const splitDay = dayName.split("",3);
+        const joinDay = splitDay.join("");
+        
+
+        return `<li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
+        <img src="https://openweathermap.org/img/wn/${frContent.weather[0].icon}@2x.png">
+        <span>${joinDay}</span>
+        <div class="day_temp">${Math.round(frContent.main.temp - 275.15)}°c</div>
+        <span class="humidity">${frContent.main.humidity}%</span>
+        <span class="wind">${frContent.wind.speed} Km/h</span>
+    </li>`
     }
     
     
