@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Forecast Application</title>
 <link href="./output.css" rel="stylesheet">
+
 </head>
 <body class="bg-gray-800 h-screen flex items-center justify-center font-poppins">
     <div class="container mx-auto w-full md:max-w-screen-md bg-gray-900 text-white rounded-lg shadow-2xl ">
@@ -28,6 +29,9 @@
                 <form class="relative my-6">
                     <input class="input_field w-5/6 bg-transparent border border-gray-700 rounded-md p-2 text-white text-base outline-none mx-auto" type="text" placeholder="Search Location">
                     <button class="btn_search absolute top-0 right-0 h-10 bg-blue-900 text-white cursor-pointer rounded-r-md p-2.5 text-sm" type="submit">Search</button>
+                    <!-- Current Location Button -->
+                    <button onclick="useCurrentLocation()" class="btn_current_location w-full mt-2 bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-md" type="button">Current Location</button>
+                    <div id="recent-cities w-full mt-2 bg-green-600 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-md">recent-cities</div>
                 </form>
 
                 <div class="day_info">

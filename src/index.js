@@ -82,19 +82,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     //display image and temp
     function displayImageContent(data) {
+        const tempInCelsius = Math.round(data.main.temp - 273.15);
         return `<img class="w-4/5 object-cover mx-auto" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Weather Icon"/>
-        <h2 class="weather_temp text-8xl font-extrabold leading-none">${Math.round(data.main.temp - 275.15)}°C</h2>
+        <h2 class="weather_temp text-8xl font-extrabold leading-none">${Math.round(data.main.temp - 273.15)}°C</h2>
         <h3 class="cloudtxt text-2xl capitalize leading-relaxed">${data.weather[0].description}</h3> `;
     }
 
     function rightSideContent(result){
+        const tempInCelsius = Math.round(result.main.temp - 273.15);
         return `<div class="content flex justify-between p-1">
                     <p class="title font-semibold">NAME</p>
                     <span class="value">${result.name}</span>
                 </div>
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">TEMP</p>
-                    <span class="value">${Math.round(result.main.temp - 275.15)}°C</span>
+                    <span class="value">${Math.round(result.main.temp - 273.15)}°C</span>
                 </div>
                 <div class="content flex justify-between p-1">
                     <p class="title font-semibold">HUMIDITY</p>
@@ -122,7 +124,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         console.log(dayForecast);
         
         dayForecast.forEach((content, indx) => {
-            if (indx <= 4) {
+            if (indx <= 4) {                                   // display weather for 5 days 
                 listContentElement.insertAdjacentHTML("afterbegin",forecast(content));
             }
             
@@ -131,23 +133,72 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     //forecast html element data
     function forecast(frContent) {
+        const tempInCelsius = Math.round(frContent.main.temp - 273.15);
 
         const day = new Date(frContent.dt_txt);
         const dayName = days[day.getDay()];
-        const splitDay = dayName.split("",3);
-        const joinDay = splitDay.join("");
+        const splitDay = dayName.split("",3);   //split the first 3 letter of days
+        const joinDay = splitDay.join("");      //used to join the 3 letters
         
 
         return `<li class="p-2 flex flex-col items-center rounded-lg transition-transform duration-300 ease-in hover:scale-110 bg-blue-400 text-gray-800 shadow-md cursor-pointer">
         <img src="https://openweathermap.org/img/wn/${frContent.weather[0].icon}@2x.png">
-        <span>${joinDay}</span>
-        <div class="day_temp">${Math.round(frContent.main.temp - 275.15)}°c</div>
+        <span>${joinDay}</span>                                                             
+        <div class="day_temp">${tempInCelsius}°C</div>
         <span class="humidity">${frContent.main.humidity}%</span>
         <span class="wind">${frContent.wind.speed} Km/h</span>
     </li>`
     }
-    
-    
+
+    // Function to use the current location to fetch weather data
+function useCurrentLocation() {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(async position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Clear previous data
+            iconsContainer.innerHTML = "";    
+            dayInfoElement.innerHTML = "";
+            listContentElement.innerHTML = "";
+
+            // Fetch weather data using the current location
+            try {
+                const API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API}`;
+                const response = await fetch(API_URL);
+                const result = await response.json();
+
+                if (result.cod === 200) {
+                    // Update the UI with the fetched weather data
+                    const imageContent = displayImageContent(result);
+                    const rightSide = rightSideContent(result);
+
+                    iconsContainer.innerHTML = imageContent;
+                    dayInfoElement.innerHTML = rightSide;
+
+                    // Call the forecast function to display the forecast using the coordinates
+                    displayForeCast(lat, lon);
+                } else {
+                    console.error(result.message);
+                }
+            } catch (error) {
+                console.error('Fetch error: ', error);
+            }
+        }, function(error) {
+            console.error("Geolocation Error: " + error.message);
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+
+
+// Add the useCurrentLocation function to the window object to make it accessible from the HTML button's onclick attribute
+window.useCurrentLocation = useCurrentLocation;
+
+// Rest of your existing JavaScript code...
+
 }); 
 
 
