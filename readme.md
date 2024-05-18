@@ -15,7 +15,7 @@ The application displays current weather information including temperature, weat
 
 Code Structure:
 HTML Structure: Defines the layout structure of the web application.
-CSS Styling: Utilizes Tailwind CSS for styling along with some custom CSS for responsiveness.
+CSS Styling: Utilizes Tailwind CSS for styling.
 JavaScript: Handles API calls, user interactions, and dynamic content generation.
 Event Listeners: Listens for DOMContentLoaded, search button click, current location button click, and recent cities dropdown change events.
 Functions:
@@ -27,3 +27,7 @@ forecast(frContent): Generates HTML for displaying each day's forecast.
 useCurrentLocation(): Fetches weather data for the user's current location and updates the UI.
 saveCityToRecent(city): Saves recently searched cities to local storage.
 loadRecentCities(): Loads and displays recently searched cities from local storage.
+
+
+
+my github link: https://github.com/sweetypradhan/weather-forecast-project
