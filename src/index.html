@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Forecast Application</title>
+     <!-- Importing Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-800 h-screen flex items-center justify-center font-poppins">
+     <!-- main container -->
     <div class="container mx-auto w-full md:max-w-screen-md bg-gray-900 text-white rounded-lg shadow-2xl ">
         <div class="wrapper grid grid-cols-7 gap-4">
+             <!-- Image section for weather display -->
             <div class="img_section bg-[url('../images/img2.jpg')] col-span-3 bg-cover bg-center relative transform scale-103 perspective-200 rounded-lg">
                
                 <div class="default_info p-6 text-center">
                     <h2 class="default_day text-5xl font-medium leading-tight">Sunday</h2>
                     <span class="default_date text-xl leading-snug">13 May 2024</span>
+                     <!-- Weather icon and temperature -->
                     <div class="icons flex flex-col items-center justify-center space-y-2">
                         <img class="w-4/5 object-cover mx-auto" src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon"/>
                         <h2 class="weather_temp text-8xl font-extrabold leading-none">22°C</h2>
@@ -21,10 +25,11 @@
                     </div>
                 </div>
                 
-
+                <!-- Background gradient overlay -->
                 <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-900 opacity-20 rounded-lg"></div>       
             </div>
             <div class="content_section col-span-4 p-6">
+                <!-- Form for location search -->
                 <form class="relative my-6">
                     <input class="input_field w-5/6 bg-transparent border border-gray-700 rounded-md p-2 text-white text-base outline-none mx-auto" type="text" placeholder="Search Location">
 
@@ -41,10 +46,11 @@
                     
                 </form>
 
+                <!-- Weather details for the current day -->
                 <div class="day_info">
                     <div class="content flex justify-between p-1">
                         <p class="title font-semibold">NAME</p>
-                        <span class="value">United Kingdom</span>
+                        <span class="value">Pune</span>
                     </div>
 
                     <div class="content flex justify-between p-1">
@@ -63,6 +69,8 @@
                     </div>
 
                 </div>
+
+                <!-- Weather forecast list -->
 
                 <div class="list_content">
                     <ul class="flex justify-between items-center list-none m-12 shadow-2xl gap-4">
@@ -112,6 +120,7 @@
             </div>
         </div>
     </div>
+     <!-- JavaScript file -->
     <script src="index.js"></script>
 </body>
 

@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     "use strict";
 
+    // API key for OpenWeatherMap
     const API = "ac37cfa327ad2f28db0c4a221645d9ea";
 
+     // Elements from the DOM
     const dayElement = document.querySelector(".default_day");
     const dateElement = document.querySelector(".default_date");
     const btnElement = document.querySelector(".btn_search");
@@ -12,7 +14,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const listContentElement = document.querySelector(".list_content ul");
     const recentCitiesElement = document.getElementById('recent-cities');
 
-
+    // Days of the week
     const days = [
         "Sunday",
         "Monday",
@@ -38,11 +40,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
      // Load recent cities from local storage
      loadRecentCities();
 
-    // Add event
+    // Add event listeners for search button
     btnElement.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Check empty value
+        // Check if input value is not empty
         if (inputElement && inputElement.value !== ""){
             const search = inputElement.value;
             inputElement.value = "";
@@ -55,6 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+    // Event listener for selecting a recent city
     recentCitiesElement.addEventListener('change', (e) => {
         const selectedCity = e.target.value;
         if (selectedCity) {
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+     // Function to fetch weather data for a location
     async function findLocation(name) {
         iconsContainer.innerHTML = "";    
         dayInfoElement.innerHTML = "";
@@ -79,7 +83,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 //display right side content
                 const rightSide = rightSideContent(result);
 
-                //forecast function
+                //fetch forecast data
                 displayForeCast(result.coord.lat, result.coord.lon);
 
                 iconsContainer.insertAdjacentHTML("afterbegin", imageContent);
@@ -98,16 +102,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } catch (error) {}
     } 
 
-    //display image and temp
+    // Function to display weather image and temperature
     function displayImageContent(data) {
-        const tempInCelsius = Math.round(data.main.temp - 273.15);
+        
         return `<img class="w-4/5 object-cover mx-auto" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Weather Icon"/>
         <h2 class="weather_temp text-8xl font-extrabold leading-none">${Math.round(data.main.temp - 273.15)}°C</h2>
         <h3 class="cloudtxt text-2xl capitalize leading-relaxed">${data.weather[0].description}</h3> `;
     }
 
+    // Function to display right side content (humidity, wind speed,temp)
     function rightSideContent(result){
-        const tempInCelsius = Math.round(result.main.temp - 273.15);
+        
         return `<div class="content flex justify-between p-1">
                     <p class="title font-semibold">NAME</p>
                     <span class="value">${result.name}</span>
@@ -126,12 +131,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 </div>`;
     }
 
+    // Function to display forecast
     async function displayForeCast(lat, lon) {
         const ForeCast_API = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API}`;
         const data = await fetch(ForeCast_API);
         const result = await data.json();
         
-        //filter the forecast
+        //filter the forecast for next 5 days
         const uniqueForeCastDays = [];
         const dayForecast = result.list.filter((forecast) => {
             const forecastDate = new Date(forecast.dt_txt).getDate();
@@ -215,15 +221,17 @@ function useCurrentLocation() {
 // Add the useCurrentLocation function to the window object to make it accessible from the HTML button's onclick attribute
 window.useCurrentLocation = useCurrentLocation;
 
-
+// Event handler for saving a city to recent searches
 function saveCityToRecent(city) {
-    let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
-    if (!recentCities.includes(city)) {
+    let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];   // Retrieve recent cities from local storage or initialize an empty array 
+   // If the city is not already in the recentCities array, add it
+    if (!recentCities.includes(city)) {   
         recentCities.push(city);
         localStorage.setItem('recentCities', JSON.stringify(recentCities));
     }
 }
 
+// Function to load recent cities from local storage and populate the dropdown
 function loadRecentCities() {
     const recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
     if (recentCities.length > 0) {
@@ -231,8 +239,12 @@ function loadRecentCities() {
         recentCities.forEach(city => {
             recentCitiesElement.insertAdjacentHTML('beforeend', `<option value="${city}">${city}</option>`);
         });
+
+        //show the dropdown
         recentCitiesElement.classList.remove('hidden');
     } else {
+
+        //hide the dropdown if their are no recent cities
         recentCitiesElement.classList.add('hidden');
     }
 }
