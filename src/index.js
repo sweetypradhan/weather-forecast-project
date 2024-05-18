@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const iconsContainer = document.querySelector(".icons");
     const dayInfoElement = document.querySelector(".day_info");
     const listContentElement = document.querySelector(".list_content ul");
+    const recentCitiesElement = document.getElementById('recent-cities');
+
 
     const days = [
         "Sunday",
@@ -33,6 +35,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     dateElement.textContent = `${date} ${month} ${year}`;
 
+     // Load recent cities from local storage
+     loadRecentCities();
+
     // Add event
     btnElement.addEventListener("click", (e) => {
         e.preventDefault();
@@ -43,9 +48,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             inputElement.value = "";
 
             findLocation(search);
+            
 
         } else {
             console.log("Please Enter City Or Country Name");
+        }
+    });
+
+    recentCitiesElement.addEventListener('change', (e) => {
+        const selectedCity = e.target.value;
+        if (selectedCity) {
+            findLocation(selectedCity);
         }
     });
 
@@ -71,6 +84,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 iconsContainer.insertAdjacentHTML("afterbegin", imageContent);
                 dayInfoElement.insertAdjacentHTML("afterbegin", rightSide);
+            
+                // Save city to recent searches
+                saveCityToRecent(name);
+                loadRecentCities();
+            
             } else {
                 const message = `<h2 class="weather_temp text-8xl font-extrabold leading-none">${result.cod}</h2>
                 <h3 class="cloudtxt text-2xl capitalize leading-relaxed">${result.message}</h3> `; 
@@ -197,8 +215,43 @@ function useCurrentLocation() {
 // Add the useCurrentLocation function to the window object to make it accessible from the HTML button's onclick attribute
 window.useCurrentLocation = useCurrentLocation;
 
-// Rest of your existing JavaScript code...
 
-}); 
+function saveCityToRecent(city) {
+    let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
+    if (!recentCities.includes(city)) {
+        recentCities.push(city);
+        localStorage.setItem('recentCities', JSON.stringify(recentCities));
+    }
+}
+
+function loadRecentCities() {
+    const recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
+    if (recentCities.length > 0) {
+        recentCitiesElement.innerHTML = `<option value="">Select a recent city</option>`;
+        recentCities.forEach(city => {
+            recentCitiesElement.insertAdjacentHTML('beforeend', `<option value="${city}">${city}</option>`);
+        });
+        recentCitiesElement.classList.remove('hidden');
+    } else {
+        recentCitiesElement.classList.add('hidden');
+    }
+}
+
+});  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
